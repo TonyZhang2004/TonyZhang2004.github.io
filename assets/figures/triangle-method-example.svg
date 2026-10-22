@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" focusable="false" aria-label="Coefficient triangle. row 1: 1. row 2: negative 1, negative 1. row 3: zero, 2, zero. row 4: zero, negative 1, negative 1, zero. row 5: negative 1, 2, negative 1, 2, negative 1. row 6: 1, negative 1, zero, zero, negative 1, 1." width="498" height="429.051178" viewBox="0 0 498 429.051178" preserveAspectRatio="xMidYMid meet" style="display: block; margin-inline: auto; color: inherit;">
+  <title>Coefficient triangle</title>
+  <desc>Coefficient triangle. row 1: 1. row 2: negative 1, negative 1. row 3: zero, 2, zero. row 4: zero, negative 1, negative 1, zero. row 5: negative 1, 2, negative 1, 2, negative 1. row 6: 1, negative 1, zero, zero, negative 1, 1.</desc>
+  <g fill="currentColor" text-anchor="middle" dominant-baseline="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="20">
+    <text data-row="0" data-column="0" data-coefficient="1" x="249" y="24">1</text>
+    <text data-row="1" data-column="0" data-coefficient="-1" x="205" y="100.210236">−1</text>
+    <text data-row="1" data-column="1" data-coefficient="-1" x="293" y="100.210236">−1</text>
+    <text data-row="2" data-column="0" data-coefficient="0" x="161" y="176.420471">0</text>
+    <text data-row="2" data-column="1" data-coefficient="2" x="249" y="176.420471">2</text>
+    <text data-row="2" data-column="2" data-coefficient="0" x="337" y="176.420471">0</text>
+    <text data-row="3" data-column="0" data-coefficient="0" x="117" y="252.630707">0</text>
+    <text data-row="3" data-column="1" data-coefficient="-1" x="205" y="252.630707">−1</text>
+    <text data-row="3" data-column="2" data-coefficient="-1" x="293" y="252.630707">−1</text>
+    <text data-row="3" data-column="3" data-coefficient="0" x="381" y="252.630707">0</text>
+    <text data-row="4" data-column="0" data-coefficient="-1" x="73" y="328.840942">−1</text>
+    <text data-row="4" data-column="1" data-coefficient="2" x="161" y="328.840942">2</text>
+    <text data-row="4" data-column="2" data-coefficient="-1" x="249" y="328.840942">−1</text>
+    <text data-row="4" data-column="3" data-coefficient="2" x="337" y="328.840942">2</text>
+    <text data-row="4" data-column="4" data-coefficient="-1" x="425" y="328.840942">−1</text>
+    <text data-row="5" data-column="0" data-coefficient="1" x="29" y="405.051178">1</text>
+    <text data-row="5" data-column="1" data-coefficient="-1" x="117" y="405.051178">−1</text>
+    <text data-row="5" data-column="2" data-coefficient="0" x="205" y="405.051178">0</text>
+    <text data-row="5" data-column="3" data-coefficient="0" x="293" y="405.051178">0</text>
+    <text data-row="5" data-column="4" data-coefficient="-1" x="381" y="405.051178">−1</text>
+    <text data-row="5" data-column="5" data-coefficient="1" x="469" y="405.051178">1</text>
+  </g>
+</svg>
