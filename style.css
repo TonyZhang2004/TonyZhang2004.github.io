@@ -184,6 +184,10 @@ main section + section {
   max-width: 400px;
 }
 
+.figure--avengine {
+  max-width: 480px;
+}
+
 .figure--table {
   max-width: 500px;
 }
