@@ -205,15 +205,23 @@ li {
 }
 
 .personal-list > li {
+  display: block;
   margin: 0 0 14px;
   padding: 0;
+  list-style: none;
 }
 
 .personal-item > summary {
+  display: block;
   position: relative;
   padding-left: 20px;
   list-style: none;
   cursor: pointer;
+}
+
+.personal-list > li::marker,
+.personal-item > summary::marker {
+  content: "";
 }
 
 .personal-item > summary::-webkit-details-marker {
