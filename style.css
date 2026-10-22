@@ -188,6 +188,10 @@ main section + section {
   max-width: 500px;
 }
 
+.figure--personal-photo {
+  max-width: 440px;
+}
+
 ul {
   margin: 0;
   padding-left: 21px;
