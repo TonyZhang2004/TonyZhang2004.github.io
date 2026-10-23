@@ -256,6 +256,14 @@ li {
   margin: 8px 0 0 20px;
 }
 
+.personal-achievements {
+  list-style-type: disc;
+}
+
+.personal-achievements > li::marker {
+  color: #000;
+}
+
 .skip-link {
   position: absolute;
   top: 12px;
