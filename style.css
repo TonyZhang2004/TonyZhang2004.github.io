@@ -264,6 +264,16 @@ li {
   color: #000;
 }
 
+.piano-recordings > li + li {
+  margin-top: 24px;
+}
+
+.piano-recordings audio {
+  display: block;
+  width: min(100%, 480px);
+  margin-top: 10px;
+}
+
 .skip-link {
   position: absolute;
   top: 12px;
