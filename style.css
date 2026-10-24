@@ -180,6 +180,10 @@ main section + section {
   max-width: 340px;
 }
 
+.figure--proofit {
+  max-width: 640px;
+}
+
 .figure--triangle {
   max-width: 400px;
 }

@@ -40,6 +40,17 @@
       </header>
       <main id="main-content">
         <h2 id="research-heading">Research</h2>
+        <section aria-labelledby="proofit-heading">
+          <h3 id="proofit-heading">ProoFit</h3>
+          <p>With Samanway Sadhu and Amrita Roy Chowdhury, I worked on ProoFit, a system for auditing overfitting in neural networks while keeping model weights and training data confidential. Our approach uses connections between generalization and model complexity to compare a trained model with a reference model. We combine PyTorch experiments with zero-knowledge proofs to verify the audit computations efficiently.</p>
+          <figure class="page-figure figure--proofit">
+            <a href="assets/figures/proofit-normalized-margins.png" aria-label="Open the ProoFit figure at full size">
+              <img src="assets/figures/proofit-normalized-margins.png" alt="Normalized-margin distributions for a two-layer neural network on the Credit dataset, comparing overfitted and well-fitted candidates with a reference model. From Figure 4 of ProoFit." width="1000" height="500" loading="lazy" decoding="async">
+            </a>
+          </figure>
+          <p><a href="https://openreview.net/forum?id=LsfWORAbdA">ProoFit: Confidential Auditing of Model Overfitting</a> (2026).</p>
+          <p><a href="https://github.com/TonyZhang2004/Privacy-Preserving-Overfitting-Detection">Code and experiments</a>.</p>
+        </section>
         <section aria-labelledby="token-swapping-heading">
           <h3 id="token-swapping-heading">Token Swapping</h3>
           <p>With <a href="https://web.eecs.umich.edu/~nswein/">Nicole Wein</a>, I worked on approximation algorithms for weighted token swapping on graphs and trees. The problem asks how to move tokens to their target vertices through swaps along edges while minimizing total cost. For positive token weights, our paper gives approximation algorithms and tight barriers for natural classes of algorithms.</p>
