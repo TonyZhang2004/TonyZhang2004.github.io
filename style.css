@@ -157,6 +157,16 @@ main section + section {
   gap: 8px 24px;
 }
 
+.experience-entry {
+  margin-bottom: 24px;
+}
+
+.experience-location {
+  display: block;
+  color: #767676;
+  font: inherit;
+}
+
 .page-figure {
   width: 100%;
   margin: 24px auto 28px;
