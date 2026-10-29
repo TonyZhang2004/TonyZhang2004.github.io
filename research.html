@@ -6,7 +6,7 @@
     <meta name="description" content="Research and notes by Guanyu (Tony) Zhang.">
     <title>Research | Guanyu (Tony) Zhang</title>
     <link rel="preload" href="assets/fonts/palladio-roman.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=3a2c33415bd8">
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
@@ -40,6 +40,14 @@
       </header>
       <main id="main-content">
         <h2 id="research-heading">Research</h2>
+        <section aria-labelledby="quadratic-reciprocity-heading">
+          <h3 id="quadratic-reciprocity-heading">Quadratic Reciprocity via Symplectic Similitudes</h3>
+          <p>With ChatGPT Astra, I worked on a novel proof of quadratic reciprocity using symplectic similitudes over finite fields. The argument constructs an alternating form on a cyclic augmentation module and compares two determinant calculations to recover the reciprocity sign.</p>
+          <figure class="page-figure figure--equation">
+            <img src="assets/figures/quadratic-reciprocity.svg" alt="Quadratic reciprocity: the Legendre symbols (p/q) and (q/p) have product (-1) to the power ((p - 1)(q - 1)/4), for distinct odd primes p and q." width="948" height="240" loading="lazy" decoding="async">
+          </figure>
+          <p><a href="assets/papers/quadratic-reciprocity.pdf" type="application/pdf">A Proof of Quadratic Reciprocity from a Symplectic Similitude (PDF)</a> (2026).</p>
+        </section>
         <section aria-labelledby="proofit-heading">
           <h3 id="proofit-heading">ProoFit</h3>
           <p>With Samanway Sadhu and Amrita Roy Chowdhury, I worked on ProoFit, a system for auditing overfitting in neural networks while keeping model weights and training data confidential. Our approach uses connections between generalization and model complexity to compare a trained model with a reference model. We combine PyTorch experiments with zero-knowledge proofs to verify the audit computations efficiently.</p>
@@ -48,7 +56,6 @@
               <img src="assets/figures/proofit-normalized-margins.png" alt="Normalized-margin distributions for a two-layer neural network on the Credit dataset, comparing overfitted and well-fitted candidates with a reference model. From Figure 4 of ProoFit." width="1000" height="500" loading="lazy" decoding="async">
             </a>
           </figure>
-          <p><a href="https://openreview.net/forum?id=LsfWORAbdA">ProoFit: Confidential Auditing of Model Overfitting</a> (2026).</p>
           <p><a href="https://github.com/TonyZhang2004/Privacy-Preserving-Overfitting-Detection">Code and experiments</a>.</p>
         </section>
         <section aria-labelledby="token-swapping-heading">

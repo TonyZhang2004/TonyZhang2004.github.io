@@ -206,6 +206,10 @@ main section + section {
   max-width: 500px;
 }
 
+.figure--equation {
+  max-width: 400px;
+}
+
 .figure--personal-photo {
   max-width: 440px;
 }
