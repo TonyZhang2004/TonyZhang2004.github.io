@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "slug": "frobenius-theorem",
+    "source": "first-post.md",
+    "title": "A pure counting proof of Frobenius' Theorem",
+    "preview": "A double-counting argument for Frobenius' theorem, following David Speyer's necklace construction without Möbius inversion.",
+    "hero": "assets/figures/frobenius-necklace-black-hair.webp",
+    "heroWidth": 1536,
+    "heroHeight": 1024,
+    "heroAlt": "Two children playing with a necklace of eight beads: two black and six white."
+  }
+]

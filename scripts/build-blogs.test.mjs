@@ -66,6 +66,29 @@ test('invalid LaTeX fails before changing generated output', async (t) => {
   assert.equal(await readFile(indexPath, 'utf8'), original);
 });
 
+test('keeps a Markdown draft unchanged while rendering one title and its selected illustration', async (t) => {
+  const options = await fixture(t);
+  const post = {
+    ...options.post,
+    source: 'draft.md',
+    hero: 'assets/headshot.jpg',
+    heroAlt: 'Two children and eight beads.',
+    heroWidth: 460,
+    heroHeight: 460
+  };
+  const source = `# ${post.title}\n\nA formula: $x^2$.\n`;
+  await writeFile(join(options.sourceDirectory, 'posts/draft.md'), source);
+  await writeFile(join(options.sourceDirectory, 'posts.json'), JSON.stringify([post]));
+  await buildBlogs(options);
+  const html = await readFile(join(options.outputDirectory, 'blogs/example.html'), 'utf8');
+  assert.equal((html.match(/<h1>/g) ?? []).length, 1);
+  assert.match(html, /class="blog-illustration"/);
+  assert.match(html, /src="\.\.\/assets\/headshot.jpg"/);
+  assert.match(html, /alt="Two children and eight beads\."/);
+  await access(join(options.outputDirectory, post.hero));
+  assert.equal(await readFile(join(options.sourceDirectory, 'posts/draft.md'), 'utf8'), source);
+});
+
 test('rejects duplicate slugs and paths outside the posts folder', async (t) => {
   const options = await fixture(t);
   await writeFile(join(options.sourceDirectory, 'posts.json'), JSON.stringify([options.post, options.post]));

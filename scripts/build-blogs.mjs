@@ -29,10 +29,17 @@ function fill(template, values) {
   });
 }
 
-export async function renderMarkdown(source) {
+export async function renderMarkdown(source, { omitTitle } = {}) {
   const file = await unified()
     .use(remarkParse)
     .use(remarkMath)
+    .use(() => (tree) => {
+      const first = tree.children[0];
+      const headingText = first?.children?.map((node) => node.value ?? '').join('');
+      if (omitTitle && first?.type === 'heading' && first.depth === 1 && headingText === omitTitle) {
+        tree.children.shift();
+      }
+    })
     .use(remarkRehype)
     .use(rehypeKatex, { strict: 'error', trust: false })
     .use(rehypeHighlight, { detect: false })
@@ -63,8 +70,20 @@ export async function buildBlogs({
         throw new Error(`${post.slug} needs a ${field}`);
       }
     }
-    const source = await readFile(join(sourceDirectory, 'posts', `${post.slug}.md`), 'utf8');
-    articles.push({ ...post, html: await renderMarkdown(source) });
+    const filename = post.source ?? `${post.slug}.md`;
+    if (typeof filename !== 'string' || !/^[a-z0-9][a-z0-9._-]*\.md$/i.test(filename)) {
+      throw new Error(`${post.slug} needs a Markdown filename without directory components`);
+    }
+    if (post.hero && (!/^assets\/[a-z0-9/_-]+\.(?:png|jpe?g|webp|svg)$/i.test(post.hero) || typeof post.heroAlt !== 'string' || !post.heroAlt.trim())) {
+      throw new Error(`${post.slug} needs a local illustration path and alt text`);
+    }
+    if ((post.heroWidth !== undefined || post.heroHeight !== undefined) &&
+        (!Number.isInteger(post.heroWidth) || post.heroWidth <= 0 || !Number.isInteger(post.heroHeight) || post.heroHeight <= 0)) {
+      throw new Error(`${post.slug} needs positive illustration dimensions`);
+    }
+    if (post.hero) await readFile(join(projectRoot, post.hero));
+    const source = await readFile(join(sourceDirectory, 'posts', filename), 'utf8');
+    articles.push({ ...post, html: await renderMarkdown(source, { omitTitle: post.title }) });
   }
 
   const katexRoot = dirname(dirname(require.resolve('katex')));
@@ -96,6 +115,9 @@ export async function buildBlogs({
       ...versions,
       __TITLE__: escapeHtml(post.title),
       __DESCRIPTION__: escapeHtml(post.preview),
+      __HERO_HTML__: post.hero
+        ? `          <figure class="blog-illustration"><img src="../${escapeHtml(post.hero)}" alt="${escapeHtml(post.heroAlt)}"${post.heroWidth ? ` width="${post.heroWidth}" height="${post.heroHeight}"` : ''} decoding="async"></figure>`
+        : '',
       __ARTICLE_HTML__: post.html
     })
   }));
@@ -113,6 +135,12 @@ export async function buildBlogs({
   }
   if (resolve(outputDirectory) !== projectRoot) {
     await writeFile(join(outputDirectory, 'assets/blog.css'), blogCss);
+    for (const post of articles) {
+      if (post.hero) {
+        await mkdir(dirname(join(outputDirectory, post.hero)), { recursive: true });
+        await copyFile(join(projectRoot, post.hero), join(outputDirectory, post.hero));
+      }
+    }
   }
   for (const page of pages) await writeFile(join(postDirectory, `${page.slug}.html`), page.html);
   await writeFile(join(outputDirectory, 'blogs.html'), index);
