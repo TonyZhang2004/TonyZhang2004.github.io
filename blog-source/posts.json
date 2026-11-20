@@ -1,5 +1,11 @@
 [
   {
+    "slug": "grh-implications",
+    "layout": "grh-implications",
+    "title": "What Does GRH Give Us?",
+    "preview": "An interactive graph of theorems that follow from the generalized Riemann hypothesis, from prime counts to elliptic curves."
+  },
+  {
     "slug": "frobenius-theorem",
     "source": "first-post.md",
     "title": "A pure counting proof of Frobenius' Theorem",

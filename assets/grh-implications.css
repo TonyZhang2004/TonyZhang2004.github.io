@@ -1,0 +1,134 @@
+#grh-preview {
+  color-scheme: light;
+  --grh-paper: #fff;
+  --grh-ink: #171717;
+  --grh-blue: #174a79;
+  --grh-secondary: #575e65;
+  --grh-rule: #d8dde2;
+  --grh-line: #9caab7;
+  --grh-tint: #f1f6fa;
+  --grh-selected: #e6f0f8;
+  --grh-quiet: #f7f9fb;
+  background: var(--grh-paper);
+  color: var(--grh-ink);
+  font: 400 17px/1.55 'URW Palladio L', 'Palatino Linotype', Palatino, Georgia, serif;
+}
+#grh-preview *, #grh-preview *::before, #grh-preview *::after { box-sizing: border-box; }
+#grh-preview [hidden] { display: none; }
+#grh-preview :where(h1, h2, p) { margin: 0; }
+#grh-preview :where(a, button, select):focus-visible { outline: 2px solid var(--grh-blue); outline-offset: 4px; }
+#grh-preview a { color: var(--grh-blue); text-decoration: none; }
+#grh-preview a:hover { text-decoration: underline; text-underline-offset: 4px; }
+#grh-preview :where(button, select) { font: inherit; }
+#grh-preview button { cursor: pointer; }
+#grh-preview .grh-page {
+  container: grh-page / inline-size;
+  width: min(1200px, calc(100% - 36px));
+  margin-inline: auto;
+  padding: 17px 0 36px;
+}
+#grh-preview .grh-back { display: inline-flex; align-items: center; gap: 8px; min-height: 34px; font-size: 16px; }
+#grh-preview .grh-header { padding: 0 0 22px; border-bottom: 1px solid var(--grh-rule); }
+#grh-preview h1 { margin-top: 20px; font: inherit; font-size: clamp(29px, 5.2vw, 38px); line-height: 1.2; }
+#grh-preview .grh-page-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 19px; margin-top: 17px; }
+#grh-preview .grh-branch-nav { display: none; border-right: 1px solid var(--grh-rule); padding-right: 16px; }
+#grh-preview .grh-index-title { margin: 2px 0 9px 9px; font: inherit; font-size: 18px; }
+#grh-preview .grh-branch-list { display: grid; gap: 2px; }
+#grh-preview .grh-branch-button {
+  border: 0;
+  border-left: 2px solid transparent;
+  background: transparent;
+  color: var(--grh-blue);
+  font-size: 15px;
+  line-height: 1.25;
+  text-align: left;
+  padding: 8px 8px 8px 7px;
+  min-height: 35px;
+}
+#grh-preview .grh-branch-button:hover { background: var(--grh-quiet); }
+#grh-preview .grh-branch-button[aria-current='true'] { background: var(--grh-tint); border-color: var(--grh-blue); }
+#grh-preview .grh-branch-select { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: center; width: min(100%, 390px); }
+#grh-preview .grh-branch-select select { width: 100%; min-width: 0; min-height: 44px; padding: 5px 8px; color: var(--grh-blue); background: var(--grh-paper); border: 1px solid var(--grh-rule); border-radius: 3px; }
+/* Preserve space for six 120px graph columns and their gaps when the sidebar appears. */
+@container grh-page (min-width: 984px) {
+  #grh-preview .grh-page-grid { grid-template-columns: 175px minmax(0, 1fr); gap: 29px; margin-top: 26px; }
+  #grh-preview .grh-branch-nav { display: block; }
+  #grh-preview .grh-branch-select { display: none; }
+}
+#grh-preview .grh-graph { position: relative; isolation: isolate; }
+#grh-preview .grh-connectors { position: absolute; inset: 0; pointer-events: none; z-index: -1; overflow: hidden; }
+#grh-preview :is(.grh-edge, .grh-arrow) { position: absolute; display: block; color: var(--grh-line); background-color: currentColor; }
+#grh-preview .grh-arrow {
+  clip-path: polygon(
+    calc(50% - var(--grh-half-stroke)) 0, calc(50% + var(--grh-half-stroke)) 0,
+    calc(50% + var(--grh-half-stroke)) calc(100% - 5px), 100% calc(100% - 5px),
+    50% 100%, 0 calc(100% - 5px), calc(50% - var(--grh-half-stroke)) calc(100% - 5px)
+  );
+}
+#grh-preview .grh-arrow.grh-arrow-side {
+  clip-path: polygon(
+    0 calc(50% - var(--grh-half-stroke)), calc(100% - 5px) calc(50% - var(--grh-half-stroke)),
+    calc(100% - 5px) 0, 100% 50%, calc(100% - 5px) 100%,
+    calc(100% - 5px) calc(50% + var(--grh-half-stroke)), 0 calc(50% + var(--grh-half-stroke))
+  );
+}
+#grh-preview :is(.grh-edge, .grh-arrow).grh-active { color: var(--grh-blue); }
+#grh-preview .grh-theorems {
+  display: grid;
+  grid-template-columns: repeat(var(--grh-columns), minmax(0, 1fr));
+  gap: 22px 12px;
+}
+#grh-preview .grh-theorem {
+  grid-column: var(--grh-col) / span var(--grh-span);
+  grid-row: var(--grh-row);
+  width: 100%;
+  padding: 7px 9px;
+  min-height: 44px;
+  min-width: 0;
+  max-width: 248px;
+  justify-self: center;
+  background: var(--grh-paper);
+  border: 1px solid var(--grh-rule);
+  border-radius: 3px;
+  color: var(--grh-blue);
+  font-size: 16px;
+  line-height: 1.24;
+  overflow-wrap: break-word;
+}
+#grh-preview .grh-theorem.grh-root {
+  max-width: 320px;
+  padding: 10px 14px 9px;
+  color: var(--grh-ink);
+  border-color: var(--grh-line);
+  background: var(--grh-quiet);
+  font-size: 21px;
+}
+#grh-preview .grh-root-scope { display: block; margin-top: 2px; color: var(--grh-secondary); font-size: 13px; }
+#grh-preview .grh-theorem.grh-on-path { border-color: var(--grh-line); }
+#grh-preview .grh-theorem:hover { background: var(--grh-quiet); border-color: var(--grh-blue); }
+#grh-preview .grh-theorem[aria-pressed='true'] { background: var(--grh-selected); color: var(--grh-blue); border-color: var(--grh-blue); }
+#grh-preview .grh-details { max-width: 760px; margin: 23px auto 0; background: var(--grh-quiet); padding: 14px 17px 15px; border-left: 2px solid var(--grh-blue); overflow-wrap: break-word; }
+#grh-preview .grh-details h2 { font: inherit; font-size: 22px; line-height: 1.23; }
+#grh-preview .grh-details p { margin-top: 6px; font: inherit; font-size: 16px; }
+#grh-preview .grh-statement .katex { font-size: 1.06em; }
+#grh-preview .grh-math-unit { white-space: nowrap; }
+#grh-preview .grh-statement .katex-display {
+  margin: 10px 0;
+  padding: 3px 0;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+#grh-preview .grh-statement .katex-display > .katex { width: max-content; min-width: 100%; text-align: left; }
+#grh-preview .grh-details .grh-status { color: var(--grh-secondary); font-size: 14px; }
+#grh-preview .grh-references { display: flex; flex-wrap: wrap; gap: 6px 17px; margin-top: 8px; font-size: 15px; }
+@media (max-width: 650px), (pointer: coarse) {
+  #grh-preview .grh-reference-arrow { display: none; }
+}
+#grh-preview .grh-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+#grh-preview .grh-stacked .grh-theorems { grid-template-columns: minmax(0, 1fr); gap: 11px; }
+#grh-preview .grh-stacked .grh-theorem { grid-column: 1; grid-row: var(--grh-order); justify-self: start; max-width: none; margin-left: var(--grh-indent); width: calc(100% - var(--grh-indent)); text-align: left; padding-inline: 10px; }
+#grh-preview .grh-stacked .grh-theorem.grh-root { max-width: none; }
+@media (pointer: coarse) {
+  #grh-preview .grh-branch-button, #grh-preview .grh-back { min-height: 44px; }
+}

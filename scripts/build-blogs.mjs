@@ -10,6 +10,7 @@ import remarkRehype from 'remark-rehype';
 import rehypeKatex from 'rehype-katex';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeStringify from 'rehype-stringify';
+import { renderImplicationGraph } from './render-implication-graph.mjs';
 
 // Add { slug, title, preview } to blog-source/posts.json and write its content
 // in blog-source/posts/<slug>.md. Run npm run build:blogs before committing.
@@ -70,6 +71,16 @@ export async function buildBlogs({
         throw new Error(`${post.slug} needs a ${field}`);
       }
     }
+    if (post.layout === 'grh-implications') {
+      const filename = post.source ?? `${post.slug}.json`;
+      if (typeof filename !== 'string' || !/^[a-z0-9][a-z0-9._-]*\.json$/i.test(filename)) {
+        throw new Error(`${post.slug} needs a JSON filename without directory components`);
+      }
+      const source = await readFile(join(sourceDirectory, 'posts', filename), 'utf8');
+      articles.push({ ...post, graph: renderImplicationGraph(source) });
+      continue;
+    }
+    if (post.layout !== undefined) throw new Error(`${post.slug} has an unknown layout: ${post.layout}`);
     const filename = post.source ?? `${post.slug}.md`;
     if (typeof filename !== 'string' || !/^[a-z0-9][a-z0-9._-]*\.md$/i.test(filename)) {
       throw new Error(`${post.slug} needs a Markdown filename without directory components`);
@@ -97,6 +108,11 @@ export async function buildBlogs({
   const versions = { __BLOG_VERSION__: hash(blogCss), __MATH_VERSION__: hash(mathCss) };
   const postTemplate = await readFile(join(projectRoot, 'blog-source/templates/post.html'), 'utf8');
   const indexTemplate = await readFile(join(projectRoot, 'blog-source/templates/index.html'), 'utf8');
+  const [graphTemplate, graphCss, graphJs] = articles.some(post => post.graph) ? await Promise.all([
+    readFile(join(projectRoot, 'blog-source/templates/grh-implications.html'), 'utf8'),
+    readFile(join(projectRoot, 'assets/grh-implications.css'), 'utf8'),
+    readFile(join(projectRoot, 'assets/grh-implications.js'), 'utf8')
+  ]) : [];
   const home = await readFile(join(projectRoot, 'index.html'), 'utf8');
   let header = home.match(/      <header class="site-header">[\s\S]*?<\/header>/)?.[0];
   if (!header || !header.includes('<a href="blogs.html">Blogs</a>')) {
@@ -109,18 +125,29 @@ export async function buildBlogs({
     `        <article class="blog-entry">\n          <h3><a href="blogs/${post.slug}.html">${escapeHtml(post.title)}</a></h3>\n          <p>${escapeHtml(post.preview)}</p>\n        </article>`
   ).join('\n');
   const index = fill(indexTemplate, { ...versions, __SITE_HEADER__: header, __BLOG_ENTRIES__: entries });
-  const pages = articles.map((post) => ({
-    slug: post.slug,
-    html: fill(postTemplate, {
+  const pages = articles.map((post) => {
+    const metadata = {
       ...versions,
       __TITLE__: escapeHtml(post.title),
-      __DESCRIPTION__: escapeHtml(post.preview),
-      __HERO_HTML__: post.hero
-        ? `          <figure class="blog-illustration"><img src="../${escapeHtml(post.hero)}" alt="${escapeHtml(post.heroAlt)}"${post.heroWidth ? ` width="${post.heroWidth}" height="${post.heroHeight}"` : ''} decoding="async"></figure>`
-        : '',
-      __ARTICLE_HTML__: post.html
-    })
-  }));
+      __DESCRIPTION__: escapeHtml(post.preview)
+    };
+    return {
+      slug: post.slug,
+      html: post.graph ? fill(graphTemplate, {
+        ...metadata,
+        __GRAPH_CSS_VERSION__: hash(graphCss),
+        __GRAPH_JS_VERSION__: hash(graphJs),
+        __GRAPH_DATA__: post.graph.data,
+        __GRAPH_STATEMENTS__: post.graph.statements
+      }) : fill(postTemplate, {
+        ...metadata,
+        __HERO_HTML__: post.hero
+          ? `          <figure class="blog-illustration"><img src="../${escapeHtml(post.hero)}" alt="${escapeHtml(post.heroAlt)}"${post.heroWidth ? ` width="${post.heroWidth}" height="${post.heroHeight}"` : ''} decoding="async"></figure>`
+          : '',
+        __ARTICLE_HTML__: post.html
+      })
+    };
+  });
 
   const postDirectory = join(outputDirectory, 'blogs');
   const assetDirectory = join(outputDirectory, 'assets/katex');
@@ -135,6 +162,10 @@ export async function buildBlogs({
   }
   if (resolve(outputDirectory) !== projectRoot) {
     await writeFile(join(outputDirectory, 'assets/blog.css'), blogCss);
+    if (graphTemplate) {
+      await writeFile(join(outputDirectory, 'assets/grh-implications.css'), graphCss);
+      await writeFile(join(outputDirectory, 'assets/grh-implications.js'), graphJs);
+    }
     for (const post of articles) {
       if (post.hero) {
         await mkdir(dirname(join(outputDirectory, post.hero)), { recursive: true });

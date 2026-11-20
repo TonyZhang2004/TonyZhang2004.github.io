@@ -96,3 +96,42 @@ test('rejects duplicate slugs and paths outside the posts folder', async (t) => 
   await writeFile(join(options.sourceDirectory, 'posts.json'), JSON.stringify([{ ...options.post, slug: '../outside' }]));
   await assert.rejects(buildBlogs(options), /hyphenated slug/);
 });
+
+test('builds a GRH graph alongside Markdown with local assets and pre-rendered math', async (t) => {
+  const options = await fixture(t);
+  const manifest = [options.post, {
+    slug: 'grh-implications', layout: 'grh-implications', title: 'What Does GRH Give Us?', preview: 'A theorem graph.'
+  }];
+  const reference = { label: 'Reference', url: 'https://example.org/grh' };
+  const graph = {
+    nodes: [
+      { id: 'grh', title: 'GRH', statement: 'Inline $x^2$.', parents: [], sources: [reference] },
+      { id: 'example', title: 'Theorem', statement: 'Display $$x^2=1.$$ </script>', parents: ['grh'], sources: [reference] }
+    ],
+    branches: [{ id: 'theorems', title: 'Theorems', tracks: [['grh', 'example']] }]
+  };
+  const graphSource = join(options.sourceDirectory, 'posts/grh-implications.json');
+  await writeFile(join(options.sourceDirectory, 'posts.json'), JSON.stringify(manifest));
+  await writeFile(graphSource, JSON.stringify(graph));
+  const result = await buildBlogs(options);
+  const graphPath = join(options.outputDirectory, 'blogs/grh-implications.html');
+  const html = await readFile(graphPath, 'utf8');
+  const index = await readFile(result.index, 'utf8');
+  assert.match(index, /href="blogs\/grh-implications.html"/);
+  assert.match(index, /href="blogs\/example.html"/);
+  assert.match(html, /href="\.\.\/blogs.html#blogs-heading"/);
+  assert.match(html, /href="\.\.\/assets\/grh-implications.css\?v=[a-f0-9]{12}"/);
+  assert.match(html, /src="\.\.\/assets\/grh-implications.js\?v=[a-f0-9]{12}"/);
+  assert.equal((html.match(/<math /g) ?? []).length, 2);
+  assert.match(html, /grh-math-unit/);
+  assert.match(html, /katex-display/);
+  assert.match(html, /&lt;\/script&gt;/);
+  assert.doesNotMatch(html, /window\.openai|data:font/);
+  await access(join(options.outputDirectory, 'assets/grh-implications.css'));
+  await access(join(options.outputDirectory, 'assets/grh-implications.js'));
+
+  graph.nodes[1].parents = ['example'];
+  await writeFile(graphSource, JSON.stringify(graph));
+  await assert.rejects(buildBlogs(options), /Invalid theorem path/);
+  assert.equal(await readFile(graphPath, 'utf8'), html);
+});
