@@ -100,7 +100,8 @@ test('rejects duplicate slugs and paths outside the posts folder', async (t) => 
 test('builds a GRH graph alongside Markdown with local assets and pre-rendered math', async (t) => {
   const options = await fixture(t);
   const manifest = [options.post, {
-    slug: 'grh-implications', layout: 'grh-implications', title: 'What Does GRH Give Us?', preview: 'A theorem graph.'
+    slug: 'grh-implications', layout: 'grh-implications', title: 'What Does GRH Give Us?', preview: 'A theorem graph.',
+    hero: 'assets/figures/grh-zeta-doodle.jpg', heroAlt: 'An ink doodle of the zeta function.', heroWidth: 1280, heroHeight: 720
   }];
   const reference = { label: 'Reference', url: 'https://example.org/grh' };
   const graph = {
@@ -122,6 +123,8 @@ test('builds a GRH graph alongside Markdown with local assets and pre-rendered m
   assert.match(html, /href="\.\.\/blogs.html#blogs-heading"/);
   assert.match(html, /href="\.\.\/assets\/grh-implications.css\?v=[a-f0-9]{12}"/);
   assert.match(html, /src="\.\.\/assets\/grh-implications.js\?v=[a-f0-9]{12}"/);
+  assert.match(html, /been proven\?” <a [^>]+>- D\. Hilbert<\/a>/);
+  assert.match(html, /<img src="\.\.\/assets\/figures\/grh-zeta-doodle\.jpg" alt="An ink doodle of the zeta function\." width="1280" height="720"/);
   assert.equal((html.match(/<math /g) ?? []).length, 2);
   assert.match(html, /grh-math-unit/);
   assert.match(html, /katex-display/);
@@ -129,6 +132,7 @@ test('builds a GRH graph alongside Markdown with local assets and pre-rendered m
   assert.doesNotMatch(html, /window\.openai|data:font/);
   await access(join(options.outputDirectory, 'assets/grh-implications.css'));
   await access(join(options.outputDirectory, 'assets/grh-implications.js'));
+  await access(join(options.outputDirectory, manifest[1].hero));
 
   graph.nodes[1].parents = ['example'];
   await writeFile(graphSource, JSON.stringify(graph));

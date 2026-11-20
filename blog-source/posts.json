@@ -3,7 +3,11 @@
     "slug": "grh-implications",
     "layout": "grh-implications",
     "title": "What Does GRH Give Us?",
-    "preview": "An interactive graph of theorems that follow from the generalized Riemann hypothesis, from prime counts to elliptic curves."
+    "preview": "An interactive graph of theorems that follow from the generalized Riemann hypothesis, from prime counts to elliptic curves.",
+    "hero": "assets/figures/grh-zeta-doodle.jpg",
+    "heroWidth": 1280,
+    "heroHeight": 720,
+    "heroAlt": "Ink doodle of the Riemann zeta function mapping its critical line into loops that pass through the origin."
   },
   {
     "slug": "frobenius-theorem",
