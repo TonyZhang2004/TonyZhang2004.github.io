@@ -44,7 +44,10 @@ test('builds real linked pages and removes only generated posts when the list be
   assert.match(article, /class="blog-backbar"/);
   assert.match(article, /<math /);
   assert.match(article, /hljs-/);
-  assert.doesNotMatch(article, /<script|site-header|Sample technical post/);
+  assert.match(article, /src="\.\.\/assets\/blog-back-to-top\.js\?v=[a-f0-9]{12}" defer/);
+  assert.match(article, /class="blog-back-to-top" type="button" aria-label="Back to top" hidden/);
+  assert.doesNotMatch(article, /site-header|Sample technical post|class="post-contents"/);
+  await access(join(options.outputDirectory, 'assets/blog-back-to-top.js'));
   const css = await readFile(join(options.outputDirectory, 'assets/blog.css'), 'utf8');
   assert.match(css, /position: sticky/);
   await writeFile(join(options.outputDirectory, 'blogs/manual.html'), '<p>Keep this hand-written file.</p>');
@@ -97,6 +100,19 @@ test('rejects duplicate slugs and paths outside the posts folder', async (t) => 
   await assert.rejects(buildBlogs(options), /hyphenated slug/);
 });
 
+test('links nested contents to unique headings for posts that opt in', async (t) => {
+  const options = await fixture(t);
+  await writeFile(join(options.sourceDirectory, 'posts.json'), JSON.stringify([{ ...options.post, contents: true }]));
+  await writeFile(join(options.sourceDirectory, 'posts/example.md'), '## Results & notes\n\n### Example\n\n## Results & notes\n');
+  await buildBlogs(options);
+  const html = await readFile(join(options.outputDirectory, 'blogs/example.html'), 'utf8');
+  assert.match(html, /<a href="#section-results-notes">Results &amp; notes<\/a><ul><li><a href="#section-example">Example<\/a>/);
+  assert.match(html, /<a href="#section-results-notes-2">Results &amp; notes<\/a>/);
+  assert.match(html, /<h2 id="section-results-notes">Results (?:&amp;|&#x26;) notes<\/h2>/);
+  assert.match(html, /<h3 id="section-example">Example<\/h3>/);
+  assert.match(html, /<h2 id="section-results-notes-2">Results (?:&amp;|&#x26;) notes<\/h2>/);
+});
+
 test('builds a GRH graph alongside Markdown with local assets and pre-rendered math', async (t) => {
   const options = await fixture(t);
   const manifest = [options.post, {
@@ -123,6 +139,8 @@ test('builds a GRH graph alongside Markdown with local assets and pre-rendered m
   assert.match(html, /href="\.\.\/blogs.html#blogs-heading"/);
   assert.match(html, /href="\.\.\/assets\/grh-implications.css\?v=[a-f0-9]{12}"/);
   assert.match(html, /src="\.\.\/assets\/grh-implications.js\?v=[a-f0-9]{12}"/);
+  assert.match(html, /src="\.\.\/assets\/blog-back-to-top\.js\?v=[a-f0-9]{12}" defer/);
+  assert.match(html, /class="blog-back-to-top" type="button" aria-label="Back to top" hidden/);
   assert.match(html, /been proven\?” <a [^>]+>- D\. Hilbert<\/a>/);
   assert.match(html, /<img src="\.\.\/assets\/figures\/grh-zeta-doodle\.jpg" alt="An ink doodle of the zeta function\." width="1280" height="720"/);
   assert.equal((html.match(/<math /g) ?? []).length, 2);

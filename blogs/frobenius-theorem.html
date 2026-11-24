@@ -9,7 +9,8 @@
     <link rel="preload" href="../assets/fonts/palladio-roman.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../assets/katex/katex.min.css?v=c9eac1c75c95">
-    <link rel="stylesheet" href="../assets/blog.css?v=c36a3b8b72c0">
+    <link rel="stylesheet" href="../assets/blog.css?v=f8992807bff9">
+    <script src="../assets/blog-back-to-top.js?v=751b5233c548" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#blog-article">Skip to content</a>
@@ -20,6 +21,7 @@
       <main class="blog-article" id="blog-article">
         <article class="blog-body">
           <h1>A pure counting proof of Frobenius&#39; Theorem</h1>
+
           <figure class="blog-illustration"><img src="../assets/figures/frobenius-necklace-black-hair.webp" alt="Two children playing with a necklace of eight beads: two black and six white." width="1536" height="1024" decoding="async"></figure>
 <blockquote>
 <p>Let <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> be a finite group, and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> be a positive integer dividing <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∣</mi><mi>G</mi><mi mathvariant="normal">∣</mi></mrow><annotation encoding="application/x-tex">|G|</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣</span><span class="mord mathnormal">G</span><span class="mord">∣</span></span></span></span>. Then <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> divides <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">#</mi><mo stretchy="false">{</mo><mi>g</mi><mo>∈</mo><mi>G</mi><mo>:</mo><msup><mi>g</mi><mi>n</mi></msup><mo>=</mo><mn>1</mn><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">\# \{g \in G : g^n = 1\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">#</span><span class="mopen">{</span><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8588em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">}</span></span></span></span>.</p>
@@ -56,5 +58,8 @@ The condition <span class="katex"><span class="katex-mathml"><math xmlns="http:/
         </article>
       </main>
     </div>
+    <button class="blog-back-to-top" type="button" aria-label="Back to top" hidden>
+      <span class="blog-back-to-top-arrow" aria-hidden="true"></span>
+    </button>
   </body>
 </html>

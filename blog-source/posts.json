@@ -1,5 +1,12 @@
 [
   {
+    "slug": "current-state-of-ai",
+    "source": "new-post.md",
+    "title": "My Perception of the Current State of AI from a Technical Point of View",
+    "preview": "A proof can pass a checker and a patch can pass its tests, but what does it take for someone else to build on that work?",
+    "contents": true
+  },
+  {
     "slug": "grh-implications",
     "layout": "grh-implications",
     "title": "What Does GRH Give Us?",
